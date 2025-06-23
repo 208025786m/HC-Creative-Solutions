@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HC Creative - Selector de Productos</title>
+  <script>
+    function toggleWebsiteOptions() {
+      const website = document.getElementById("website").value;
+      const webOptions = document.getElementById("webOptions");
+      webOptions.style.display = (website === "no") ? "block" : "none";
+    }
+
+    function toggleCommunityNote() {
+      const cm = document.getElementById("community").value;
+      const note = document.getElementById("communityNote");
+      note.style.display = (cm === "si") ? "block" : "none";
+    }
+
+    function calculateTotal() {
+      const logoValue = document.getElementById("logo").value === "no" ? 300 : 0;
+      const website = document.getElementById("website").value;
+      let websiteValue = 0;
+
+      if (website === "no") {
+        const webType = document.getElementById("webType").value;
+        websiteValue = webType === "landyn" ? 400 : 700;
+      }
+
+      const paquete = document.getElementById("paquete").value;
+      const paqueteValue = paquete === "basico" ? 500 : 1000;
+
+      const negocios = document.getElementById("negocios").value;
+
+      const cm = document.getElementById("community").value;
+      const cmValue = cm === "si" ? 200 : 0;
+
+      let subtotal = logoValue + websiteValue + paqueteValue + cmValue;
+
+      if (negocios === "multiple") {
+        subtotal = subtotal * 0.85;
+      }
+
+      document.getElementById("result").innerText = 
+        `Total: $${subtotal.toFixed(2)}`;
+    }
+  </script>
+</head>
+<body>
+  <h2>HC Creative - Formulario de Recomendación</h2>
+
+  <form id="productForm">
+    <label>¿Tienes un logo?</label><br />
+    <select id="logo">
+      <option value="si">Sí</option>
+      <option value="no">No</option>
+    </select><br /><br />
+
+    <label>¿Tienes una página web?</label><br />
+    <select id="website" onchange="toggleWebsiteOptions()">
+      <option value="si">Sí</option>
+      <option value="no">No</option>
+    </select><br /><br />
+
+    <div id="webOptions" style="display: none;">
+      <label>¿Deseas que te hagamos una página web?</label><br />
+      <select id="webType">
+        <option value="landyn">Landing Page ($400)</option>
+        <option value="interactiva">Interactiva ($700)</option>
+      </select><br /><br />
+    </div>
+
+    <label>¿Qué tipo de paquete deseas?</label><br />
+    <select id="paquete">
+      <option value="basico">Básico ($500)</option>
+      <option value="completo">Manejo Completo ($1000)</option>
+    </select><br /><br />
+
+    <label>Manejaremos cuántos negocios:</label><br />
+    <select id="negocios">
+      <option value="uno">Uno</option>
+      <option value="multiple">Múltiples (15% descuento)</option>
+    </select><br /><br />
+
+    <label>¿Necesitas un Community Manager?</label><br />
+    <select id="community" onchange="toggleCommunityNote()">
+      <option value="no">No</option>
+      <option value="si">Sí</option>
+    </select><br />
+    <div id="communityNote" style="display: none; font-style: italic; color: #555;">
+      Nota: recuerda que el Community Manager es un pago mensual de $200 dólares.
+    </div><br />
+
+    <button type="button" onclick="calculateTotal()">Obtener Total</button>
+  </form>
+
+  <h3 id="result"></h3>
+</body>
+</html>
